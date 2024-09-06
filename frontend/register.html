@@ -16,9 +16,9 @@
             <div class="col-xs-10 col-md-6 col-sm-9 col-lg-5">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <h3 class="text-center mb-4">Inicio de Sesión</h3>
-                       
-                        <form id="login-form">
+                        <h3 class="text-center mb-4">Registro de Usuario</h3>
+                        
+                        <form id="register">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="username" placeholder="Username" required>
                                 <label for="username">Usuario</label>
@@ -30,7 +30,7 @@
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Ingresar</button>
                         </form>
-                        <a href="register.html">No tengo cuenta</a>
+                        
                         <p id="message" class="text-danger mt-3"></p>
                     </div>
                 </div>
@@ -80,13 +80,14 @@
                 
                 const data = await response.json();
                 console.log(data);
-                window.location.href = 'home.html';
+                window.location.href = 'index.html';
                 
             } catch (error) {
 
             }
         });
     </script>
+    <script src="register.js"></script>
 </body>
 
 </html>

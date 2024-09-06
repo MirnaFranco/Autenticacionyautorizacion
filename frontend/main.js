@@ -1,3 +1,4 @@
+import "./style.css"
 (async () => {
     const response = await fetch('http://localhost:4000/session', {
         method: 'GET',
