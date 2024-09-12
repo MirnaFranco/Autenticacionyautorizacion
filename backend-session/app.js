@@ -5,7 +5,7 @@ import session from 'express-session';
 import morgan from 'morgan';
 import path from 'path';
 import { EXPRESS_SESSION } from './config/config.js';
-
+import { userRouter } from './Routes/auth.routes.js';
 
 
 const app = express();
@@ -36,5 +36,5 @@ app.use(session({
     }
 }));
 
-
+app.use(userRouter)
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}/`));

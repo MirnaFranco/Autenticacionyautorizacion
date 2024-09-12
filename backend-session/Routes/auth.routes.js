@@ -1,10 +1,10 @@
 import {Router} from "express";
-import {loginUser,logoutUser,usuario,sessionUser} from '../controllers/auth.controller';
+import {loginUser,logoutUser,usuario,sessionUser} from '../controllers/auth.controller.js';
 
 
-const userRouter = Router();
+export const userRouter = Router();
 
-userRouter.post("./login/", loginUser);
-userRouter.post("./register",usuario);
-userRouter.post("./logout",logoutUser);
-userRouter.get("./session",sessionUser);
+userRouter.post("/login/", loginUser);
+userRouter.post("/register",usuario);
+userRouter.post("/logout",logoutUser);
+userRouter.get("/session",sessionUser);

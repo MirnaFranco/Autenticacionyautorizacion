@@ -1,4 +1,4 @@
-import {DBconnection} from './db/database.js';
+import {DBconnection} from '../db/database.js';
 
 export const usuario = async (req, res) => {
     const{username, password }= req.body;
@@ -21,18 +21,18 @@ export const loginUser= async(req, res) => {
 
     // Buscar usuario
     const connection = DBconnection();
-    const sql = 'SELECT * FROM  users WHERE username= ?'
+    const sql = 'SELECT * FROM  users WHERE username= ? AND password= ?';
     const [user] = connection.query(sql,[username,password]);
     
 
-    if (user) {
+    if (user.leght>0) {
         // Guardar información del usuario en la sesión
-        req.session.userId = user.id;
-        req.session.username = user.username;
+        req.session.userId = user[0].id;
+        req.session.username = user[0].username;
 
         return res.json({ 
             message: 'Inicio de sesión exitoso', 
-            user: { id: user.id, username: user.username } });
+            user: { id: user[0].id, username: user[0].username } });
     } else {
         return res.status(401).json({ message: 'Credenciales incorrectas' });
     }
