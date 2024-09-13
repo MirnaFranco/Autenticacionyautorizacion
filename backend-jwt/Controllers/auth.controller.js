@@ -1,42 +1,41 @@
-import {connection} from './db/database.js';
-import {generarjwt} from './helpers/generar-jwt.js'
-import {validarjwt} from './middlewares/validar-jwt.js'
+import {connectionDB} from '../db/database.js';
+import {generarjwt} from '../helpers/generar-jwt.js'
+import {validarjwt} from '../middlewares/validar-jwt.js'
 
 
 export const usuario = async (req, res) => {
     const{user, password }= req.body;
     const sql = 'INSERT INTO users (username, password) VALUES(?,?)'
     try {
-        const connection = await connection();
+        const connection = await connectionDB();
         await connection.query(sql, [user, password]);
-        res.json({
-            msg: 'Usuario registrado correctamente'
-        });
-        connection.end();
+        res.json({ message: 'Conexión exitosa' });
     } catch (error) {
-        res.status(500).json({ message: 'Error al registrar el usuario' });
+      res.status(500).json({ message: 'Error al conectar con la base de datos' });
     }
-};
+    }
+;
 
 // Endpoint de inicio de sesión (login)
 export const loginUser =  async (req, res) => {
     const { username, password } = req.body;
-
+const sql = 'SELECT * FROM users WHERE username= ? AND password =?';
 
     try {
-        const connection =connection();
-            const sql = 'SELECT * FROM users WHERE username= ?';
-            const [user]= await connection.query(sql, username);
+        const connection = await connectionDB();
+            
+        const [rows] = await connection.query(sql,[username, password]);
+        const user = rows[0];
         ;
 
         // Validación de usuario
-        if (user[0]) {
+        if (!user) {
             return res.status(401).json({ message: 'no existe el usuario' });
-        }
-        if(user.password==password){
+        } else {
+        if(user.password===password){
 
         // Generar token JWT
-        const token = await generarJwt(user.id);
+        const token = await generarjwt(user.id);
 
         // Almacenar el token en la sesión del servidor
         req.session.token = token;
@@ -50,6 +49,7 @@ export const loginUser =  async (req, res) => {
 
         return res.json({ message: 'Inicio de sesión exitoso' });
     }
+}
 }catch (error) {
         console.error(error);
         return res.status(500).json({ message: 'Error Inesperado' });

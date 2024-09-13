@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-import { SECRET_KEY } from '../config/env.js';
-import { connection } from '../db/database.js';
+import { SECRET_KEY } from '../config/config.js';
+import { connectionDB } from '../db/database.js';
 
 // Middleware para verificar el token JWT
 export const validarjwt =(req, res, next) => {
@@ -19,7 +19,7 @@ async (token) => {
      const decoded = jwt.verify(token, SECRET_KEY);
 
     // Se busca al usuario en la base de datos
-    const connection = await connection();
+    const connection = await connectionDB();
     const [user] = await connection.query('SELECT * FROM USERS WHERE ID =? LIMIT 1', decoded.id); 
 
     if (!user) {

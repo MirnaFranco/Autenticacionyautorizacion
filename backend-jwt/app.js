@@ -3,9 +3,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import cors from 'cors';
-
-import { PORT } from './config/env.js';
-import validarJwt from './middlewares/validar-jwt.js';
+import {userRouter} from './routes/auth.routes.js'
+import { PORT } from './config/config.js';
 import morgan from 'morgan';
 
 
@@ -25,7 +24,7 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false } // Usar 'true' si usas HTTPS
 }));
-
+app.use(userRouter);
 
 
 
